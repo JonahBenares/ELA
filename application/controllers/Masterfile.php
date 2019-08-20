@@ -31,11 +31,16 @@ class Masterfile extends CI_Controller {
 
     public function dashboard(){  
         $personal_id = $this->session->userdata('personal_id');
+        $row=$this->super_model->count_rows_where("leave_info", "personal_id", $personal_id);
+        if($row!=0){
         foreach($this->super_model->select_row_where("leave_info", "personal_id", $personal_id) as $info){
             $data['info'][]=array(
                 "vl"=>$info->vl_balance,
                 "sl"=>$info->sl_balance
             );
+        }
+        }else {
+            $data['info']=array();
         }
     	$this->load->view('template/header');
     	$this->load->view('template/sidebar');
@@ -79,9 +84,6 @@ class Masterfile extends CI_Controller {
         $this->load->view('template/sidebar');
         /*$data['personal_data'] = $this->super_model->select_all_order_by('personal_data','lname','ASC');*/
         foreach($this->super_model->select_all_order_by('personal_data','lname','ASC') AS $per){
-            $lname = $per->lname;
-            $fname = $per->fname;
-            $mname = $per->mname;
             $username = $this->super_model->select_column_where("user", "username", "personal_id", $per->personal_id);
             $user_level = $this->super_model->select_column_where("user", "user_level", "personal_id", $per->personal_id);
             $user_id = $this->super_model->select_column_where("user", "user_id", "personal_id", $per->personal_id);

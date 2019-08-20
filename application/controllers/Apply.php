@@ -27,11 +27,16 @@ class Apply extends CI_Controller {
 
     public function va_sick(){
         $personal_id = $this->session->userdata('personal_id');
-        foreach($this->super_model->select_row_where("leave_info", "personal_id", $personal_id) as $info){
-            $data['info'][]=array(
-                "vl"=>$info->vl_balance,
-                "sl"=>$info->sl_balance
-            );
+        $row = $this->super_model->count_rows_where("leave_info", "personal_id", $personal_id);
+        if($row!=0){
+            foreach($this->super_model->select_row_where("leave_info", "personal_id", $personal_id) as $info){
+                $data['info'][]=array(
+                    "vl"=>$info->vl_balance,
+                    "sl"=>$info->sl_balance
+                );
+            }
+        }else {
+            $data['info']=array();
         }
         $data['type'] = $this->super_model->select_all('leave_type');  
     	$this->load->view('template/header');
@@ -48,13 +53,17 @@ class Apply extends CI_Controller {
         $data['type_id']=$type;
 
         $personal_id = $this->session->userdata('personal_id');
+        $row = $this->super_model->count_rows_where("leave_info", "personal_id", $personal_id);
+        if($row!=0){
         foreach($this->super_model->select_row_where("leave_info", "personal_id", $personal_id) as $info){
             $data['info'][]=array(
                 "vl"=>$info->vl_balance,
                 "sl"=>$info->sl_balance
             );
+        } 
+        }else {
+            $data['info']=array();
         }
-        
     	$this->load->view('template/header');
     	$this->load->view('template/sidebar');
         $this->load->view('apply/form', $data);

@@ -24,15 +24,23 @@
                             <div class="card" style="padding: 30px">
                                 <div>
                                     <div class="chart-legend">
-                                        <?php foreach($info AS $i){ 
-                                            $vl=$i['vl'];
-                                            $sl= $i['sl'];
-                                        }
-                                        if($type_id == '1'){
-                                            $max=$vl;
-                                        } else {
-                                            $max=$sl;
-                                        }?>
+                                        <?php 
+                                            if(!empty($info)){
+                                                foreach($info AS $i){ 
+                                                    $vl=$i['vl'];
+                                                    $sl= $i['sl'];
+                                                }
+                                                if($type_id == '1'){
+                                                    $max=$vl;
+                                                } else {
+                                                    $max=$sl;
+                                                }
+                                            }else{
+                                                $vl=0;
+                                                $sl=0;
+                                                $max=0;
+                                            }
+                                        ?>
                                                 
                                                     <a class="btn btn-danger btn-fill">VL
                                                         <span class="badge" style="margin-left:30px"><?php echo $vl; ?></span>
