@@ -39,11 +39,9 @@ class Approval extends CI_Controller {
             $query = "(";
             foreach($this->super_model->select_row_where("personal_data", "current_supervisor", $id) AS $i){
                 $query.="'".$i->personal_id."',";
-              
             }
             $query=substr($query,0,-1);
             $query.=")";
-
             $rows=$this->super_model->count_custom_where("leave_application", "personal_id IN ".$query." AND endorsed_by is NULL AND approved_by is NULL");
             if($rows!=0){
                 foreach($this->super_model->select_custom_where("leave_application", "personal_id IN ".$query." AND endorsed_by is NULL AND approved_by is NULL") AS $app){
@@ -63,28 +61,29 @@ class Approval extends CI_Controller {
                 $data['application']=array();
             }
         } else if($level=='1'){
-             $query = "(";
+            $query = "(";
             foreach($this->super_model->select_row_where("department", "department_head", $id) AS $i){
               $query.="'".$i->dept_id."',";
             }
             $query=substr($query,0,-1);
             $query.=")";
 
-           // echo $query;
+            //echo $query;
             $query2 = "(";
             foreach($this->super_model->select_custom_where("personal_data", "current_dept IN ".$query) AS $d){
                 $query2.="'".$d->personal_id."',";
             }
             $query2=substr($query2,0,-1);
             $query2.=")";
-
-            $rows=$this->super_model->count_custom_where("leave_application", "personal_id IN ".$query2." AND approved_by is NULL");
+            
+            $rows=$this->super_model->count_custom_where("leave_application", "personal_id IN ".$query2." AND supervisor_approval = '1' AND approved_by is NULL");
+            //$rows=$this->super_model->count_custom_where("leave_application", "supervisor_approval = '1' AND approved_by is NULL");
             if($rows!=0){
-                foreach($this->super_model->select_custom_where("leave_application", "personal_id IN ".$query2." AND approved_by is NULL") AS $app){
+                foreach($this->super_model->select_custom_where("leave_application", "personal_id IN ".$query2." AND supervisor_approval = '1' AND approved_by is NULL") AS $app){
+                //foreach($this->super_model->select_custom_where("leave_application", "supervisor_approval = '1' AND approved_by is NULL") AS $app){
                     $lname=$this->super_model->select_column_where("personal_data", "lname", "personal_id", $app->personal_id);
                     $fname=$this->super_model->select_column_where("personal_data", "fname", "personal_id", $app->personal_id);
                     $empname = $lname .", ".$fname;
-
                     $leave=$this->super_model->select_column_where("leave_type", "type_desc", "type_id", $app->type_id);
                     $data['application'][] = array(
                         'leave_id'=>$app->leave_id,
@@ -96,8 +95,6 @@ class Approval extends CI_Controller {
             } else {
                  $data['application']=array();
             }
-          
-            
         } else {
             $data['application']=array();
         }
@@ -230,7 +227,7 @@ class Approval extends CI_Controller {
                 );
                 $this->super_model->update_where("leave_info", $data2, "personal_id", $personal_id);
             } else if($type=='2'){
-                $new_sl = $sl_bal - 1;
+                $new_sl = $sl_bal - $no_days;
 
                 $data2 = array(
                     "sl_balance"=>$new_sl

@@ -92,11 +92,11 @@
                                             </tr>
                                             <tr>
                                                 <td><p>Vacation Leave Credits:</p></td>
-                                                <td><input type="number" name = 'vl' value = '<?php echo $per['vl']; ?>' class="form-control"></td>
+                                                <td><input type="number" name = 'vl' value = '<?php if($per['vlb']=='0.00'){ echo $per['vl']; } else { echo $per['vlb']; } ?>' class="form-control"></td>
                                             </tr>
                                             <tr>
                                                 <td><p>Sick Leave Credits:</p></td>
-                                                <td><input type="number" name = 'sl' value = '<?php echo $per['sl']; ?>' class="form-control"></td>
+                                                <td><input type="number" name = 'sl' value = '<?php if($per['slb']=='0.00'){ echo $per['sl']; } else { echo $per['slb']; } ?>' class="form-control"></td>
                                             </tr>
                                             <tr>
                                                 <td colspan="2"><br><input type="submit" id = 'submit_pass' name="" class="btn btn-danger btn-fill btn-block"></td>

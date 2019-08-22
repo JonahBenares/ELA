@@ -36,7 +36,7 @@
                                                 ?>
                                                     <tr>
                                                         <td><?php echo $x;?></td>
-                                                        <td><?php if(!empty($per['lname'])&!empty($per['fname'])&!empty($per['mname'])){ echo $per['lname'].", ".$per['fname'].", ".$per['mname']; }else { echo '';} ?></td>
+                                                        <td><?php echo $per['lname'].", ".$per['fname'].", ".$per['mname']; ?></td>
                                                         <td><?php echo $per['emp_status']?></td>
                                                         <td><?php echo $per['username'];?></td>
                                                         <td>

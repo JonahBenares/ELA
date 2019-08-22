@@ -32,6 +32,15 @@ class Masterfile extends CI_Controller {
     public function dashboard(){  
         $personal_id = $this->session->userdata('personal_id');
         $row=$this->super_model->count_rows_where("leave_info", "personal_id", $personal_id);
+        $level = $this->super_model->select_column_where("user", "user_level", "personal_id", $_SESSION['personal_id']);
+        if($level==1){
+            $data['approval_count']=$this->super_model->count_custom_where("leave_application", "supervisor_approval = '1' AND manager_approval = '0'");
+        }else if($level==2){
+            $data['approval_count']=$this->super_model->count_custom_where("leave_application", "supervisor_approval = '0'");
+        }else {
+            $data['approval_count']='0';
+        }
+
         if($row!=0){
         foreach($this->super_model->select_row_where("leave_info", "personal_id", $personal_id) as $info){
             $data['info'][]=array(
@@ -121,6 +130,8 @@ class Masterfile extends CI_Controller {
             $type_id  = $this->super_model->select_column_where("leave_info", "li_id", "personal_id", $person->personal_id);
             $vl  = $this->super_model->select_column_where("leave_info", "vl_credits", "personal_id", $person->personal_id);
             $sl  = $this->super_model->select_column_where("leave_info", "sl_credits", "personal_id", $person->personal_id);
+            $vlb  = $this->super_model->select_column_where("leave_info", "vl_balance", "personal_id", $person->personal_id);
+            $slb  = $this->super_model->select_column_where("leave_info", "sl_balance", "personal_id", $person->personal_id);
             $password = $this->super_model->select_column_where("user", "password", "personal_id", $person->personal_id); 
               
             $data['person'][] = array(
@@ -132,6 +143,8 @@ class Masterfile extends CI_Controller {
                 'type_id'=>$type_id,
                 'vl'=>$vl,
                 'sl'=>$sl,
+                'vlb'=>$vlb,
+                'slb'=>$slb,
                 'password'=>$password
             ); 
         }

@@ -64,7 +64,7 @@
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12">
                             <a href="<?php echo base_url(); ?>index.php/approval/approval_list/<?php echo $personal_id; ?>" class=" card btn btn-success btn-fill btn-block">
-                                <p class="appli">APPROVAL</p>
+                                <p class="appli">APPROVAL <span class = "label label-danger"><?php echo $approval_count; ?></span></p>
                             </a>
                         </div>
                     </div>                    
@@ -72,7 +72,5 @@
             </div>
         </div>
     </div>
-
-
 </body>
 
