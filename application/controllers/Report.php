@@ -82,9 +82,50 @@ class Report extends CI_Controller {
     }
 
     public function leave_details(){  
+        $leave_id=$this->uri->segment(3);
+        $data['leave_id']=$leave_id;
         $this->load->view('template/header');
         $this->load->view('template/sidebar');
-        $this->load->view('report/leave_details');
+        foreach($this->super_model->select_row_where('leave_application', 'leave_id', $leave_id) AS $leave){
+            $type_name = $this->super_model->select_column_where("leave_type", "type_desc", "type_id", $leave->type_id);
+            $end_lname = $this->super_model->select_column_where("personal_data", "lname", "personal_id", $leave->endorsed_by);
+            $end_mname = $this->super_model->select_column_where("personal_data", "mname", "personal_id", $leave->endorsed_by);
+            $end_fname = $this->super_model->select_column_where("personal_data", "fname", "personal_id", $leave->endorsed_by);
+
+            $app_lname = $this->super_model->select_column_where("personal_data", "lname", "personal_id", $leave->approved_by);
+            $app_fname = $this->super_model->select_column_where("personal_data", "fname", "personal_id", $leave->approved_by);
+            $app_mname = $this->super_model->select_column_where("personal_data", "mname", "personal_id", $leave->approved_by);
+
+            $rec_lname = $this->super_model->select_column_where("personal_data", "lname", "personal_id", $leave->receive_by);
+            $rec_fname = $this->super_model->select_column_where("personal_data", "fname", "personal_id", $leave->receive_by);
+            $rec_mname = $this->super_model->select_column_where("personal_data", "mname", "personal_id", $leave->receive_by);
+            $data['leave'][] = array(
+                'app_date' => $leave->app_date,
+                'type_id' => $leave->type_id,
+                'from_date' => $leave->from_date,
+                'to_date' => $leave->to_date,
+                'no_of_days' => $leave->no_of_days,
+                'return_date' => $leave->return_date,
+                'leave_reason' => $leave->leave_reason,
+                'endorsed_by' => $leave->endorsed_by,
+                'endorse_date' => $leave->endorse_date,
+                'approved_by' => $leave->approved_by,
+                'approve_date' => $leave->approve_date,
+                'receive_by' => $leave->receive_by,
+                'receive_date' => $leave->receive_date,
+                'type_name' => $type_name,
+                'end_lname' => $end_lname,
+                'end_fname' => $end_fname,
+                'end_mname' => $end_mname,
+                'app_lname' => $app_lname,
+                'app_fname' => $app_fname,
+                'app_mname' => $app_mname,
+                'rec_lname' => $rec_lname,
+                'rec_fname' => $rec_fname,
+                'rec_mname' => $rec_mname,
+            );
+        }
+        $this->load->view('report/leave_details',$data);
         $this->load->view('template/script');
     }
 }

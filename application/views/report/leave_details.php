@@ -26,54 +26,62 @@
                                     <hr>
                                     <center>
                                         <table class="table table-hover table-stripes" >
+                                            <?php 
+                                                foreach($leave AS $lv){ 
+                                            ?>
                                             <tr>
                                                 <td width="25%"><p>Application Date</p></td>
-                                                <td width="70%"><p></p></td>
+                                                <td width="70%"><p><?php echo $lv['app_date'];?></p></td>
                                             </tr>
                                             <tr>
                                                 <td width="25%"><p>Leave Type</p></td>
-                                                <td width="70%"><p></p></td>
+                                                <td width="70%"><p><?php echo $lv['type_name'];?></p></td>
                                             </tr>
                                             <tr>
                                                 <td width="25%"><p>From Date</p></td>
-                                                <td width="70%"><p></p></td>
+                                                <td width="70%"><p><?php echo $lv['from_date'];?></p></td>
                                             </tr>  
                                             <tr>
                                                 <td width="25%"><p>To Date</p></td>
-                                                <td width="70%"><p></p></td>
+                                                <td width="70%"><p><?php echo $lv['to_date'];?></p></td>
                                             </tr>  
                                             <tr>
+                                                <td width="25%"><p>No. of Days</p></td>
+                                                <td width="70%"><p><?php echo $lv['no_of_days'];?></p></td>
+                                            </tr>
+                                            <tr>
                                                 <td width="25%"><p>Return Date</p></td>
-                                                <td width="70%"><p></p></td>
+                                                <td width="70%"><p><?php echo $lv['return_date'];?></p></td>
                                             </tr>  
                                             <tr>
                                                 <td width="25%"><p>Reason for leave</p></td>
-                                                <td width="70%"><p></p></td>
+                                                <td width="70%"><p><?php echo $lv['leave_reason'];?></p></td>
                                             </tr>  
                                             <tr>
                                                 <td width="25%"><p>Endorsed By</p></td>
-                                                <td width="70%"><p></p></td>
+                                                <td width="70%"><p><?php echo $lv['end_lname'].", ".$lv['end_fname'].", ".$lv['end_mname'];?></p></td>
                                             </tr>  
                                             <tr>
                                                 <td width="25%"><p>Endorsed Date</p></td>
-                                                <td width="70%"><p></p></td>
+                                                <td width="70%"><p><?php echo $lv['endorse_date'];?></p></td>
                                             </tr>  
                                             <tr>
                                                 <td width="25%"><p>Approved By</p></td>
-                                                <td width="70%"><p></p></td>
+                                                <td width="70%"><p><?php echo $lv['app_lname'].", ".$lv['app_fname'].", ".$lv['app_mname'];?></p></td>
                                             </tr>  
                                             <tr>
                                                 <td width="25%"><p>Approved Date</p></td>
-                                                <td width="70%"><p></p></td>
+                                                <td width="70%"><p><?php echo $lv['approve_date'];?></p></td>
                                             </tr>   
                                             <tr>
                                                 <td width="25%"><p>Received By</p></td>
-                                                <td width="70%"><p></p></td>
+                                                <td width="70%"><p><?php echo $lv['rec_lname'].", ".$lv['rec_fname'].", ".$lv['rec_mname'];?></p></td>
                                             </tr>  
                                             <tr>
                                                 <td width="25%"><p>Received Date</p></td>
-                                                <td width="70%"><p></p></td>
-                                            </tr>                                     
+                                                <td width="70%"><p><?php echo $lv['receive_date'];?></p></td>
+                                            </tr> 
+                                            <?php } ?>                                    
                                         </table>
                                     </center>
                                 </div>
